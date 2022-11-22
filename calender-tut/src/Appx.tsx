@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.scss";
-import CalenderPicker from "./components/calendar";
+import CalenderPicker from "./components/calenderPicker/calenderPicker";
 import TimePicker from "./components/timePicker/timePicker";
-import { TimeSvg } from "./assets/imagesSvg";
 
 const baseUrl = "http://localhost:5000/api/schedule";
 const postScheduleUrl = "/post-schedule";
@@ -31,7 +30,7 @@ function App() {
     // disabled_time_slots: [{ date: '2022-10-17', time: [{ time: '10:00' }] }],
   });
 
-  // console.log(disabledObj);
+  console.log(disabledObj);
 
   const handleChange = (key: string, value: string) => {
     setSchedule({
@@ -82,43 +81,22 @@ function App() {
   // console.log('schedule', schedule);
 
   return (
-    <div className="home">
-      <div className="main-container">
-        <a href="##" target="_blank" className="schedule-emblem">
-          <div className="branding">
-            <div className="text-one">powered by</div>
-            <div className="text-two">Scheduly</div>
-          </div>
-        </a>
-
-        <div className="top-container">
-          <div className="inner">
-            <div className="name">Adegoke Adekanye</div>
-            <h1 className="header">60 Minute Meeting</h1>
-            <div className="time-indicator">
-              <div className="indicator-details">
-                <span className="time-svg">
-                  <TimeSvg />
-                </span>
-                <span className="text">60 min</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bottom-container">
-          <h2>Select a Date & Time</h2>
-
-          <form className="schedule-form" onSubmit={handleSubmit}>
-            <CalenderPicker
-              handleChange={handleChange}
-              disabledDays={disabledObj.disabled_days}
-              reset={reset}
-              handleDateChange={handleDateChange}
-            />
-          </form>
-        </div>
-      </div>
+    <div className="mainContainer">
+      <form className="scheduleForm" onSubmit={handleSubmit}>
+        <CalenderPicker
+          handleChange={handleChange}
+          disabledDays={disabledObj.disabled_days}
+          reset={reset}
+          handleDateChange={handleDateChange}
+        />
+        <TimePicker
+          handleChange={handleChange}
+          disabledTime={disabledObj.disabled_time_slots}
+          reset={reset}
+          activeDate={schedule.date}
+        />
+        <button type="submit">{loading ? "Loading" : "Submit"}</button>
+      </form>
     </div>
   );
 }
