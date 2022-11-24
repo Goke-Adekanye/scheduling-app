@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.scss";
 import CalenderPicker from "./components/calendar";
-import TimePicker from "./components/timePicker/timePicker";
+import TimePicker from "./components/time";
+import BouncingDotsLoader from "./components/bouncingDots";
 import { TimeSvg } from "./assets/imagesSvg";
 
 const baseUrl = "http://localhost:5000/api/schedule";
@@ -31,8 +32,6 @@ function App() {
     // disabled_time_slots: [{ date: '2022-10-17', time: [{ time: '10:00' }] }],
   });
 
-  // console.log(disabledObj);
-
   const handleChange = (key: string, value: string) => {
     setSchedule({
       ...schedule,
@@ -55,7 +54,13 @@ function App() {
 
   useEffect(() => {
     setReset(false);
+    setSchedule({
+      date: "",
+      time: "",
+    });
   }, [reset]);
+
+  // console.log(schedule);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -69,7 +74,7 @@ function App() {
       .post(baseUrl + postScheduleUrl, schedule)
       .catch((err) => console.log(err));
     if (response) {
-      alert(response.data);
+      getConfig();
     }
     setReset(true);
     setLoading(false);
@@ -78,8 +83,6 @@ function App() {
   const handleDateChange = (date: string) => {
     setDateChange(date);
   };
-
-  // console.log('schedule', schedule);
 
   return (
     <div className="home">
@@ -110,12 +113,25 @@ function App() {
           <h2>Select a Date & Time</h2>
 
           <form className="schedule-form" onSubmit={handleSubmit}>
-            <CalenderPicker
-              handleChange={handleChange}
-              disabledDays={disabledObj.disabled_days}
-              reset={reset}
-              handleDateChange={handleDateChange}
-            />
+            {loading && <BouncingDotsLoader />}
+            <div className="inner">
+              <CalenderPicker
+                handleChange={handleChange}
+                disabledDays={disabledObj.disabled_days}
+                reset={reset}
+                handleDateChange={handleDateChange}
+              />
+              <TimePicker
+                handleChange={handleChange}
+                disabledTime={disabledObj.disabled_time_slots}
+                reset={reset}
+                activeDate={schedule.date}
+              />
+            </div>
+
+            <div className="btn-container">
+              <button type="submit">Submit</button>
+            </div>
           </form>
         </div>
       </div>

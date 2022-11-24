@@ -42,7 +42,6 @@ const CalenderPicker: FC<CalenderPickerProps> = ({
   handleDateChange,
 }) => {
   const [value, setValue] = useState("");
-  const [datePickerVisibility, setDatePickerVisibility] = useState(false);
   const [activeYear, setActiveYear] = useState<number>(1);
   const [activeMonth, setActiveMonth] = useState<number>(1);
   const [activeDay, setActiveDay] = useState<number>(1);
@@ -52,9 +51,6 @@ const CalenderPicker: FC<CalenderPickerProps> = ({
     day: number;
   }>();
 
-  const handlePickerVisibility = () => {
-    setDatePickerVisibility(!datePickerVisibility);
-  };
   const getToday = () => {
     return new Date();
   };
@@ -99,7 +95,6 @@ const CalenderPicker: FC<CalenderPickerProps> = ({
 
       const stringFormat = `${selectedValue?.year}-${fullMonthFormat}-${fullDayFormat}`; //yyyy-mm-dd
       setValue(stringFormat);
-      setDatePickerVisibility(false);
     }
   }, [selectedValue]);
 
@@ -125,7 +120,7 @@ const CalenderPicker: FC<CalenderPickerProps> = ({
     const disable_data_mock = {
       year: selectedValue?.year,
       month: selectedValue?.month,
-      days: [1, 5, 15, 25],
+      days: [40],
     };
 
     const today = getToday();

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useEffect, useState } from 'react';
-import { TimeSvg } from '../../assets/imagesSvg';
-import './timePicker.scss';
+import { FC, useEffect, useState } from "react";
+import "./time.scss";
 
 interface TimePickerProps {
   handleChange: (key: string, value: string) => void;
@@ -13,23 +12,19 @@ interface TimePickerProps {
   activeDate: string;
 }
 
-const TimePicker: FC<TimePickerProps> = ({ handleChange, disabledTime, reset, activeDate }) => {
-  // console.log('active-date', activeDate);
-  // console.log(disabledTime);
+const TimePicker: FC<TimePickerProps> = ({
+  handleChange,
+  disabledTime,
+  reset,
+  activeDate,
+}) => {
+  // console.log("active-date", activeDate);
 
-  const [value, setValue] = useState('');
-  const [timePickerVisibility, setTimePickerVisibility] = useState(false);
-
-  const handlePickerVisibility = () => {
-    if (!activeDate) {
-      alert('please select a date');
-      return;
-    }
-    setTimePickerVisibility(!timePickerVisibility);
-  };
+  const [value, setValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
 
   const resetCallback = () => {
-    setValue('');
+    setValue("");
   };
 
   useEffect(() => {
@@ -38,9 +33,16 @@ const TimePicker: FC<TimePickerProps> = ({ handleChange, disabledTime, reset, ac
     }
   }, [reset]);
 
+  useEffect(() => {
+    if (activeDate) {
+      setSelectedValue("");
+      setValue("");
+    }
+  }, [activeDate]);
+
   const timeSlots = {
     start: 8,
-    end: 18,
+    end: 16,
   };
 
   const checkDisabled = (value: string, _timeSlots: string[]): boolean => {
@@ -66,9 +68,15 @@ const TimePicker: FC<TimePickerProps> = ({ handleChange, disabledTime, reset, ac
     for (let i of formattedTimeSlots) {
       _timeSlots.push(
         <div
-          className={`time-slots ${checkDisabled(i, disabledSlots) ? 'disabled' : ''}`}
+          className={`list-item ${
+            checkDisabled(i, disabledSlots) && "disabled"
+          } ${selectedValue === i && "selected"}`}
           key={i}
-          onClick={() => handleTimeSelection(i)}>
+          onClick={() => {
+            handleTimeSelection(i);
+            setSelectedValue(i);
+          }}
+        >
           {i}
         </div>
       );
@@ -77,27 +85,19 @@ const TimePicker: FC<TimePickerProps> = ({ handleChange, disabledTime, reset, ac
   };
 
   useEffect(() => {
-    handleChange('time', value);
+    handleChange("time", value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const handleTimeSelection = (_value: string) => {
     setValue(_value);
-    setTimePickerVisibility(false);
   };
 
   return (
-    <div className='timePicker-main'>
-      <div className='inputCanvas' onClick={handlePickerVisibility}>
-        <div className='timePicker-canvas'>
-          <span className='placeholder'> {value ? value : 'Choose a time'}</span>
-        </div>
-        <div className='timePicker-svg'>
-          <TimeSvg />
-        </div>
+    <div className={`timePicker-main ${activeDate && "show"}`}>
+      <div className="picker-inner">
+        <div className="slot-list">{getTimeSlots()}</div>
       </div>
-
-      {timePickerVisibility && <div className='timePicker'>{getTimeSlots()}</div>}
     </div>
   );
 };

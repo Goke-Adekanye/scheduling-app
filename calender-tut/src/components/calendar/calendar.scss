@@ -1,6 +1,8 @@
 .datePicker-main {
-  width: 100%;
+  width: 60%;
   position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .calenderPicker {
@@ -40,6 +42,10 @@
   }
 }
 
+.chevron-right, .chevron-left {
+  transition: all .2s ease-in;
+}
+
 .calenderBody {
   padding: 5px;
 
@@ -72,6 +78,7 @@
       font-weight: 700;
       color: #0060e6;
       background-color: var(--primary-color-level4,rgba(0,105,255,0.065));
+      transition: all .2s ease-in;
     }
     &.available-days:not(.selected):hover {
       background-color: var(--primary-color-level3,rgba(0,105,255,0.15));
@@ -112,6 +119,8 @@
 .chevron-right-double,
 .chevron-left-double {
   position: relative;
+  transition: all .2s ease-in;
+
   .chevron:last-child {
     position: absolute;
     top: 0;
@@ -123,4 +132,8 @@
 .chevron-right-double {
   margin-right: 5px;
   transform: rotateY(180deg);
+}
+
+.chevron-right-double:hover, .chevron-left-double:hover, .chevron-right:hover, .chevron-left:hover {
+  color: var(--primary-color,rgb(0,105,255));
 }

@@ -26,7 +26,9 @@ const getSchedule = async (req, res) => {
     month = active_date_arr[1];
   } else return res.status(400).json('expected format is yyyy:mm');
 
-  let schedules_within_active_month = await Schedule.find({ yearMonth: `${year}-${month}` });
+  const fullMonthFormat = month.toString().length < 2 ? `0${month}` : month;
+
+  let schedules_within_active_month = await Schedule.find({ yearMonth: `${year}-${fullMonthFormat}` });
   // console.log('schedules_within_active_month', schedules_within_active_month);
 
   let disabled_days = [];
@@ -39,7 +41,7 @@ const getSchedule = async (req, res) => {
       time: time_query.map((t) => ({ time: t.time })),
     };
 
-    if (time_query.length === 11) {
+    if (time_query.length === 9) {
       disabled_days.push(schedules_within_active_month[t].day);
     } else {
       disabled_time_slots.push(t_obj);
