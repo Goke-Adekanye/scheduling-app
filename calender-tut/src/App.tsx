@@ -96,7 +96,7 @@ function App() {
 
         <div className="top-container">
           <div className="inner">
-            <div className="name">Adegoke Adekanye</div>
+            <div className="name">Usman Chukwuemeka</div>
             <h1 className="header">60 Minute Meeting</h1>
             <div className="time-indicator">
               <div className="indicator-details">
