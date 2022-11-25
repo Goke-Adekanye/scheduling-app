@@ -3,10 +3,18 @@
   margin-left: auto;
   margin-right: auto;
   display: none;
-  // border: 1px solid green;
 
   &.show {
     display: block;
+  }
+
+  h3 {
+    height: 38px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 38px;
   }
 
   .picker-inner {

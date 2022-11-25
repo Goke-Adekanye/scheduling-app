@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import dayjs from "dayjs";
 import { FC, useEffect, useState } from "react";
 import "./time.scss";
 
@@ -95,6 +96,7 @@ const TimePicker: FC<TimePickerProps> = ({
 
   return (
     <div className={`timePicker-main ${activeDate && "show"}`}>
+      <h3>{dayjs(activeDate).format("dddd, MMMM D")}</h3>
       <div className="picker-inner">
         <div className="slot-list">{getTimeSlots()}</div>
       </div>
